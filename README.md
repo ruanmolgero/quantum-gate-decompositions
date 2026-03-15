@@ -70,3 +70,12 @@ The script evaluates each decomposition and outputs the validation status in the
 [PASS] IBM CNOT (1x ECR) (Alignment: CNOT_01)
 [PASS] IBM SWAP (3x ECR CNOTs) (Alignment: CNOT_01)
 ```
+
+## Authors
+
+* **Ruan Luiz Molgero Lopes** - *Universidade Federal de Santa Catarina (UFSC)*
+* **Eduardo Lussi** - *Universidade Federal de Santa Catarina (UFSC)*
+* **Evandro Chagas Ribeiro da Rosa** - *Universidade Federal de Santa Catarina (UFSC)*
+* **Jerusa Marchi** - *Universidade Federal de Santa Catarina (UFSC)*
+
+*Developed as part of the Quantum Computing Group (GCQ) at UFSC.*
