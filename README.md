@@ -1,6 +1,6 @@
 # Quantum Gate Decomposition Validator
 
-This repository contains the supplementary software artifact for the paper **"Gatesets Nativos e Decomposições de Portas: Um Estudo sobre Processadores Quânticos Atuais"**. 
+This repository contains the supplementary software artifact for the paper **"Conjuntos de Portas Nativos e Decomposições de Portas: Um Estudo sobre Processadores Quânticos Atuais"**. 
 
 It provides a symbolic validation script written in Python that mathematically proves the algebraic equivalence between universal quantum logic gates (such as $U3$, $CNOT$, and $SWAP$) and their hardware-specific native decompositions across three major quantum computing architectures: **IBM**, **Rigetti**, and **IonQ**.
 

@@ -140,13 +140,18 @@ def check_equivalence(mat_A, ideal_name, ideal_mat_01, ideal_mat_10=None):
     print(f"[FAIL] {ideal_name}\n       Matrices are not algebraically equivalent.")
     return mat_A
 
+
+def SXdg():
+    """Returns the matrix representation of the SX dagger gate."""
+    return (1/2) * Matrix([[1-I, 1+I], [1+I, 1-I]])
+
 # ==========================================
 # 4. IBM
 # ==========================================
 print("\n" + "=" * 45 + "\n IBM ARCHITECTURE\n" + "=" * 45)
 
-u3_ibm = Rz(phi) * SX * Rz(pi - theta) * SX * Rz(lam - pi)
-check_equivalence(u3_ibm, "IBM U3   (2x SX)", U3_IDEAL)
+u3_ibm = Rz(phi) * SX * Rz(-theta) * SXdg() * Rz(lam)
+check_equivalence(u3_ibm, "IBM U3   (SX and SXdg)", U3_IDEAL)
 
 # IBM CNOT 1: Decomposition via CZ
 CZ = Matrix([[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, -1]])
@@ -158,15 +163,27 @@ cnot_ibm_cz = check_equivalence(cnot_ibm_cz, "IBM CNOT (1x CZ)", CNOT_01, CNOT_1
 cnot_ibm_rzz = kron(Rz(-pi / 2), X * SX) * kron(I_mat, had_equiv) * Rzz(pi / 2) * kron(I_mat, had_equiv)
 cnot_ibm_rzz = check_equivalence(cnot_ibm_rzz, "IBM CNOT (1x Rzz)", CNOT_01, CNOT_10)
 
-# IBM CNOT 3: Decomposition via ECR
-ECR = (eye(4) - I * kron(X, Y)) / sp.sqrt(2)
-U_align = kron(Ry(pi / 2), Rz(pi / 2))
-U_align_dag = kron(Ry(-pi / 2), Rz(-pi / 2))
-flip = kron(X, I_mat)
+# # IBM CNOT 3: Decomposition via ECR
+# ECR = (eye(4) - I * kron(X, Y)) / sp.sqrt(2)
+# U_align = kron(Ry(pi / 2), Rz(pi / 2))
+# U_align_dag = kron(Ry(-pi / 2), Rz(-pi / 2))
+# flip = kron(X, I_mat)
 
-core_ibm_ecr = flip * U_align_dag * ECR * U_align * flip
-cnot_ibm_ecr = kron(Rz(pi / 2), Rx(pi / 2)) * core_ibm_ecr
-cnot_ibm_ecr = check_equivalence(cnot_ibm_ecr, "IBM CNOT (1x ECR)", CNOT_01, CNOT_10)
+# core_ibm_ecr = flip * U_align_dag * ECR * U_align * flip
+# cnot_ibm_ecr = kron(Rz(pi / 2), Rx(pi / 2)) * core_ibm_ecr
+# cnot_ibm_ecr = check_equivalence(cnot_ibm_ecr, "IBM CNOT (1x ECR)", CNOT_01, CNOT_10)
+
+# IBM CNOT 3: Decomposition via ECR (Strictly Native Gates)
+ECR = (eye(4) - I * kron(X, Y)) / sp.sqrt(2)
+C_pre = Rz(-pi / 2) * SX * Rz(pi / 2)
+C_post = Rz(pi) * SX * Rz(-pi / 2)
+T_pre = Rz(pi / 2)
+T_post = SX * Rz(-pi / 2)
+pre_ecr = kron(C_pre, T_pre)
+post_ecr = kron(C_post, T_post)
+
+cnot_ibm_ecr = post_ecr * ECR * pre_ecr
+check_equivalence(cnot_ibm_ecr, "IBM CNOT (1x ECR)", CNOT_01, CNOT_10)
 
 # swap_ibm = cnot_ibm_ecr * (kron(H, H) * cnot_ibm_ecr * kron(H, H)) * cnot_ibm_ecr
 # check_equivalence(swap_ibm, "IBM SWAP (3x ECR CNOTs)", SWAP_IDEAL)
