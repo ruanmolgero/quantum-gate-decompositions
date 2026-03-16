@@ -79,3 +79,18 @@ The script evaluates each decomposition and outputs the validation status in the
 * **Jerusa Marchi** - *Universidade Federal de Santa Catarina (UFSC)*
 
 *Developed as part of the Quantum Computing Group (GCQ) at UFSC.*
+
+## Citation
+
+If you use this validation script or the decompositions presented in this repository for your research, please cite our paper and the corresponding Zenodo artifact:
+
+```bibtex
+@software{lopes_quantum_decompositions_2026,
+  author       = {Ruan L. M. Lopes and Eduardo Lussi and Evandro C. R. Rosa and Jerusa Marchi},
+  title        = {Quantum Gate Decomposition Validator},
+  month        = mar,
+  year         = 2026,
+  publisher    = {Zenodo},
+  doi          = {10.5281/zenodo.19039958},
+  url          = {[https://doi.org/10.5281/zenodo.19039958](https://doi.org/10.5281/zenodo.19039958)}
+}
